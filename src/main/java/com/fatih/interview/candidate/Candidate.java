@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "candidates")
@@ -13,19 +14,21 @@ public class Candidate {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
-	@Column(name="name")
+	@NotBlank
+	@Column(name = "name")
 	private String name;
-	
-	@Column(name="last_name")
+
+	@NotBlank
+	@Column(name = "last_name")
 	private String lastName;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
