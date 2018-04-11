@@ -1,4 +1,4 @@
-package com.fatih.interview.candidate;
+package com.fatih.interview.interviewer;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -6,8 +6,7 @@ import javax.persistence.Table;
 import com.fatih.interview.common.Person;
 
 @Entity
-@Table(name = "candidate")
-public class Candidate extends Person{
+@Table(name = "interviewer")
+public class Interviewer extends Person {
 
-	
 }

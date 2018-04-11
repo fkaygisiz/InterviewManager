@@ -1,4 +1,4 @@
-package com.fatih.interview.candidate;
+package com.fatih.interview.interviewer;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,48 +18,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/candidates")
-public class CandidateController {
+@RequestMapping("/interviewers")
+public class InterviewerController {
 
 	@Autowired
-	private CandidateService candidateService;
+	private InterviewerService interviewerService;
 
 	@GetMapping("")
-	public ResponseEntity<List<Candidate>> findAll() {
-		return ResponseEntity.ok(candidateService.findAll());
+	public ResponseEntity<List<Interviewer>> findAll() {
+		return ResponseEntity.ok(interviewerService.findAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Candidate> findById(@PathVariable Long id) {
-		Optional<Candidate> candidate = candidateService.findById(id);
-		if (candidate.isPresent()) {
-			return ResponseEntity.ok(candidate.get());
+	public ResponseEntity<Interviewer> findById(@PathVariable Long id) {
+		Optional<Interviewer> interviewer = interviewerService.findById(id);
+		if (interviewer.isPresent()) {
+			return ResponseEntity.ok(interviewer.get());
 		}
 		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping(value = "")
-	public ResponseEntity<Candidate> save(@Valid @RequestBody Candidate candidate) {
-		if (candidate.getId() != null) {
+	public ResponseEntity<Interviewer> save(@Valid @RequestBody Interviewer interviewer) {
+		if (interviewer.getId() != null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.save(candidate));
+		return ResponseEntity.status(HttpStatus.CREATED).body(interviewerService.save(interviewer));
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Candidate> update(@PathVariable Long id, @Valid @RequestBody Candidate candidate) {
-		if (!id.equals(candidate.getId())) {
+	public ResponseEntity<Interviewer> update(@PathVariable Long id, @Valid @RequestBody Interviewer interviewer) {
+		if (!id.equals(interviewer.getId())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		if (!candidateService.findById(id).isPresent()) {
+		if (!interviewerService.findById(id).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(candidateService.save(candidate));
+		return ResponseEntity.status(HttpStatus.OK).body(interviewerService.save(interviewer));
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		candidateService.delete(id);
+		interviewerService.delete(id);
 		return ResponseEntity.ok().build();
 	}
 }
