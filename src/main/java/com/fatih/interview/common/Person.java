@@ -1,16 +1,26 @@
 package com.fatih.interview.common;
 
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fatih.interview.time.DateTime;
+
 @Entity
-@Inheritance(strategy =InheritanceType.TABLE_PER_CLASS)
+@Table(name = "person")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "person_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Person {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +34,9 @@ public abstract class Person {
 	@Column(name = "last_name")
 	private String lastName;
 
+	@ManyToMany(targetEntity = DateTime.class)
+	private List<DateTime> dates;
+	
 	public Long getId() {
 		return id;
 	}
@@ -46,5 +59,13 @@ public abstract class Person {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public List<DateTime> getDates() {
+		return dates;
+	}
+
+	public void setDates(List<DateTime> dates) {
+		this.dates = dates;
 	}
 }

@@ -1,12 +1,12 @@
 package com.fatih.interview.interviewer;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 import com.fatih.interview.common.Person;
 
 @Entity
-@Table(name = "interviewer")
+@DiscriminatorValue("Interviewer")
 public class Interviewer extends Person {
 
 }

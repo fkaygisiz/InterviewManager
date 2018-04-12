@@ -1,11 +1,13 @@
 package com.fatih.interview.time;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fatih.interview.common.Person;
@@ -14,48 +16,26 @@ import com.fatih.interview.common.Person;
 @Table(name = "date_intervals")
 public class DateTime {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private List<String> timeSlots;
+	@EmbeddedId
+	private DateTimeId dateTimeId;
 
-	//@OneToMany(targetEntity=Student.class, mappedBy="college", fetch=FetchType.EAGER)
-	private Person person;
-	
-	private boolean arranged;
+	@ManyToMany(targetEntity = Person.class, mappedBy = "dates", fetch = FetchType.EAGER)
+	private List<Person> people;
 
-	public Long getId() {
-		return id;
+	public List<Person> getPeople() {
+		return people;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setPeople(List<Person> people) {
+		this.people = people;
 	}
 
-	public List<String> getTimeSlots() {
-		return timeSlots;
+	public DateTimeId getDateTimeId() {
+		return dateTimeId;
 	}
 
-	public void setTimeSlots(List<String> timeSlots) {
-		this.timeSlots = timeSlots;
+	public void setDateTimeId(DateTimeId dateTimeId) {
+		this.dateTimeId = dateTimeId;
 	}
 
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-	public boolean isArranged() {
-		return arranged;
-	}
-
-	public void setArranged(boolean arranged) {
-		this.arranged = arranged;
-	}
-	
-	
 }
