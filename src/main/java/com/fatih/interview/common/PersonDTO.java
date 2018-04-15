@@ -10,7 +10,7 @@ public class PersonDTO {
 
 	private String lastName;
 
-	private List<DateTimeForPerson> dates;
+	private List<DateTimeForPerson> personDateTimes;
 
 	public Long getId() {
 		return id;
@@ -36,11 +36,13 @@ public class PersonDTO {
 		this.lastName = lastName;
 	}
 
-	public List<DateTimeForPerson> getDates() {
-		return dates;
+	public List<DateTimeForPerson> getPersonDateTimes() {
+		return personDateTimes;
 	}
 
-	public void setDates(List<DateTimeForPerson> dates) {
-		this.dates = dates;
+	public void setPersonDateTimes(List<DateTimeForPerson> personDateTimes) {
+		this.personDateTimes = personDateTimes;
 	}
+
+
 }

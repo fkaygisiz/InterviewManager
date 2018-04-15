@@ -16,9 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fatih.interview.time.DateTime;
-
 @Entity
 @Table(name = "person")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -40,9 +37,8 @@ public abstract class Person implements Serializable{
 	@Column(name = "last_name")
 	private String lastName;
 
-	@OneToMany(mappedBy = "dateTimeId.person")
-	@JsonBackReference
-	private List<DateTime> dates;
+	@OneToMany(mappedBy = "person")
+	private List<PersonDateTime> personDateTimes;
 	
 	public Long getId() {
 		return id;
@@ -68,11 +64,12 @@ public abstract class Person implements Serializable{
 		this.lastName = lastName;
 	}
 
-	public List<DateTime> getDates() {
-		return dates;
+	public List<PersonDateTime> getPersonDateTimes() {
+		return personDateTimes;
 	}
 
-	public void setDates(List<DateTime> dates) {
-		this.dates = dates;
+	public void setPersonDateTimes(List<PersonDateTime> personDateTimes) {
+		this.personDateTimes = personDateTimes;
 	}
+
 }

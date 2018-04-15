@@ -2,27 +2,11 @@ package com.fatih.interview.common;
 
 public class DateTimeForPerson {
 	
-	private String dateTimeIdDate;
+	private String personDateTimeDateTimeIdDate;
 	
-	private String dateTimeIdTimeSlot;
+	private String personDateTimeDateTimeIdTimeSlot;
 
 	private Boolean arranged;
-
-	public String getDateTimeIdDate() {
-		return dateTimeIdDate;
-	}
-
-	public void setDateTimeIdDate(String dateTimeIdDate) {
-		this.dateTimeIdDate = dateTimeIdDate;
-	}
-
-	public String getDateTimeIdTimeSlot() {
-		return dateTimeIdTimeSlot;
-	}
-
-	public void setDateTimeIdTimeSlot(String dateTimeIdTimeSlot) {
-		this.dateTimeIdTimeSlot = dateTimeIdTimeSlot;
-	}
 
 	public Boolean getArranged() {
 		return arranged;
@@ -30,5 +14,21 @@ public class DateTimeForPerson {
 
 	public void setArranged(Boolean arranged) {
 		this.arranged = arranged;
+	}
+
+	public String getPersonDateTimeDateTimeIdDate() {
+		return personDateTimeDateTimeIdDate;
+	}
+
+	public void setPersonDateTimeDateTimeIdDate(String personDateTimeDateTimeIdDate) {
+		this.personDateTimeDateTimeIdDate = personDateTimeDateTimeIdDate;
+	}
+
+	public String getPersonDateTimeDateTimeIdTimeSlot() {
+		return personDateTimeDateTimeIdTimeSlot;
+	}
+
+	public void setPersonDateTimeDateTimeIdTimeSlot(String personDateTimeDateTimeIdTimeSlot) {
+		this.personDateTimeDateTimeIdTimeSlot = personDateTimeDateTimeIdTimeSlot;
 	}
 }

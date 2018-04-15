@@ -1,12 +1,12 @@
 package com.fatih.interview.candidate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fatih.interview.common.PersonDTO;
-import com.fatih.interview.time.DateTime;
-import com.fatih.interview.time.DateTimeId;
 
 @RestController
 @RequestMapping("/candidates")
@@ -30,37 +28,43 @@ public class CandidateController {
 	@Autowired
 	private CandidateService candidateService;
 
+	final java.lang.reflect.Type targetListType = new TypeToken<List<PersonDTO>>() {
+	}.getType();
+	final ModelMapper modelMapper = new ModelMapper();
+
 	@GetMapping("")
-	public ResponseEntity<List<Candidate>> findAll() {
-		return ResponseEntity.ok(candidateService.findAll());
+	public ResponseEntity<List<PersonDTO>> findAll() {
+		List<Candidate> allCandidates = candidateService.findAll();
+
+		return ResponseEntity.ok(modelMapper.map(allCandidates, targetListType));
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Candidate> findById(@PathVariable Long id) {
+	public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
 		Optional<Candidate> candidate = candidateService.findById(id);
 		if (candidate.isPresent()) {
-			return ResponseEntity.ok(candidate.get());
+			return ResponseEntity.ok(modelMapper.map(candidate.get(), PersonDTO.class));
 		}
 		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping(value = "")
-	public ResponseEntity<Candidate> save(@Valid @RequestBody Candidate candidate) {
+	public ResponseEntity<PersonDTO> save(@Valid @RequestBody Candidate candidate) {
 		if (candidate.getId() != null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.save(candidate));
+		return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(candidateService.save(candidate), PersonDTO.class));
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Candidate> update(@PathVariable Long id, @Valid @RequestBody Candidate candidate) {
+	public ResponseEntity<PersonDTO> update(@PathVariable Long id, @Valid @RequestBody Candidate candidate) {
 		if (!id.equals(candidate.getId())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
 		if (!candidateService.findById(id).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(candidateService.save(candidate));
+		return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(candidateService.save(candidate), PersonDTO.class));
 	}
 
 	@DeleteMapping(value = "/{id}")
@@ -68,26 +72,9 @@ public class CandidateController {
 		candidateService.delete(id);
 		return ResponseEntity.ok().build();
 	}
-	
+
 	public static void main(String[] args) {
+
 		
-		Candidate c = new Candidate();
-		c.setId(1L);
-		c.setLastName("kaygisiz");
-		c.setName("fatih");
-	
-		List<DateTime> dates = new ArrayList<>();
-		DateTime e = new DateTime();
-		e.setArranged(false);
-		DateTimeId dateTimeId = new DateTimeId();
-		dateTimeId.setDate("2018-04-12");
-		dateTimeId.setTimeSlot("11:30");
-		dateTimeId.setPerson(c);
-		e.setDateTimeId(dateTimeId);
-		dates.add(e);
-		c.setDates(dates);
-		ModelMapper modelMapper = new ModelMapper();
-		PersonDTO cDTO = modelMapper.map(c, PersonDTO.class);
-		System.out.println(cDTO);
 	}
 }
