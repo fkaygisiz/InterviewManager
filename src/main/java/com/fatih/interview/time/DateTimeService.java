@@ -18,7 +18,8 @@ public class DateTimeService {
 	}
 
 	public List<DateTime> findByDateAndTimeSlot(String date, String time) {
-		return dateTimeRepository.findByDateTimeIdDateAndDateTimeIdTimeSlot(date, time);
+//		return dateTimeRepository.findByDateAndTimeSlot(date, time);
+		return null;
 	}
 
 }

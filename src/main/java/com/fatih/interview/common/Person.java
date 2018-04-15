@@ -1,5 +1,6 @@
 package com.fatih.interview.common;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,17 +12,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fatih.interview.time.DateTime;
 
 @Entity
 @Table(name = "person")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "person_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Person {
+public abstract class Person implements Serializable{
+
+	
+	private static final long serialVersionUID = 9037195857651873348L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -34,7 +40,8 @@ public abstract class Person {
 	@Column(name = "last_name")
 	private String lastName;
 
-	@ManyToMany(targetEntity = DateTime.class)
+	@OneToMany(mappedBy = "dateTimeId.person")
+	@JsonBackReference
 	private List<DateTime> dates;
 	
 	public Long getId() {

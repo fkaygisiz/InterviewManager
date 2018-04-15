@@ -1,33 +1,38 @@
 package com.fatih.interview.time;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.Embeddable;
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-
-import com.fatih.interview.common.Person;
 
 @Entity
 @Table(name = "date_intervals")
-public class DateTime {
+@AssociationOverrides
+(
+   {
+        @AssociationOverride(name = "dateTimeId.person",
+              joinColumns = @JoinColumn(name = "user_id"))
+   }
+)
+public class DateTime implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private DateTimeId dateTimeId;
 
-	@ManyToMany(targetEntity = Person.class, mappedBy = "dates", fetch = FetchType.EAGER)
-	private List<Person> people;
+	private Boolean arranged;
 
-	public List<Person> getPeople() {
-		return people;
+	public Boolean isArranged() {
+		return arranged;
 	}
 
-	public void setPeople(List<Person> people) {
-		this.people = people;
+	public void setArranged(Boolean arranged) {
+		this.arranged = arranged;
 	}
 
 	public DateTimeId getDateTimeId() {

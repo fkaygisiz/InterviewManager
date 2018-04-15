@@ -1,10 +1,12 @@
 package com.fatih.interview.candidate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fatih.interview.common.PersonDTO;
+import com.fatih.interview.time.DateTime;
+import com.fatih.interview.time.DateTimeId;
 
 @RestController
 @RequestMapping("/candidates")
@@ -61,5 +67,27 @@ public class CandidateController {
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		candidateService.delete(id);
 		return ResponseEntity.ok().build();
+	}
+	
+	public static void main(String[] args) {
+		
+		Candidate c = new Candidate();
+		c.setId(1L);
+		c.setLastName("kaygisiz");
+		c.setName("fatih");
+	
+		List<DateTime> dates = new ArrayList<>();
+		DateTime e = new DateTime();
+		e.setArranged(false);
+		DateTimeId dateTimeId = new DateTimeId();
+		dateTimeId.setDate("2018-04-12");
+		dateTimeId.setTimeSlot("11:30");
+		dateTimeId.setPerson(c);
+		e.setDateTimeId(dateTimeId);
+		dates.add(e);
+		c.setDates(dates);
+		ModelMapper modelMapper = new ModelMapper();
+		PersonDTO cDTO = modelMapper.map(c, PersonDTO.class);
+		System.out.println(cDTO);
 	}
 }
