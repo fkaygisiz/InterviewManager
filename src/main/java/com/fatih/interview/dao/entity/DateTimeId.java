@@ -1,4 +1,4 @@
-package com.fatih.interview.time;
+package com.fatih.interview.dao.entity;
 
 import java.io.Serializable;
 

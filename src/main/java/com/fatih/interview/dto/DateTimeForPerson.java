@@ -1,9 +1,9 @@
-package com.fatih.interview.common;
+package com.fatih.interview.dto;
 
 public class DateTimeForPerson {
-	
+
 	private String personDateTimeDateTimeIdDate;
-	
+
 	private String personDateTimeDateTimeIdTimeSlot;
 
 	private Boolean arranged;

@@ -1,4 +1,4 @@
-package com.fatih.interview.candidate;
+package com.fatih.interview.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fatih.interview.common.PersonDTO;
+import com.fatih.interview.dao.entity.Candidate;
+import com.fatih.interview.dto.PersonDTO;
+import com.fatih.interview.service.CandidateService;
 
 @RestController
 @RequestMapping("/candidates")
@@ -53,7 +55,8 @@ public class CandidateController {
 		if (candidate.getId() != null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(candidateService.save(candidate), PersonDTO.class));
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(modelMapper.map(candidateService.save(candidate), PersonDTO.class));
 	}
 
 	@PutMapping(value = "/{id}")
@@ -64,7 +67,8 @@ public class CandidateController {
 		if (!candidateService.findById(id).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(candidateService.save(candidate), PersonDTO.class));
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(modelMapper.map(candidateService.save(candidate), PersonDTO.class));
 	}
 
 	@DeleteMapping(value = "/{id}")
@@ -75,6 +79,5 @@ public class CandidateController {
 
 	public static void main(String[] args) {
 
-		
 	}
 }

@@ -1,7 +1,7 @@
-package com.fatih.interview.common;
+package com.fatih.interview.dao.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -20,9 +20,8 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "person")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "person_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Person implements Serializable{
+public abstract class Person implements Serializable {
 
-	
 	private static final long serialVersionUID = 9037195857651873348L;
 
 	@Id
@@ -38,8 +37,8 @@ public abstract class Person implements Serializable{
 	private String lastName;
 
 	@OneToMany(mappedBy = "person")
-	private List<PersonDateTime> personDateTimes;
-	
+	private Set<PersonDateTime> personDateTimes;
+
 	public Long getId() {
 		return id;
 	}
@@ -64,11 +63,11 @@ public abstract class Person implements Serializable{
 		this.lastName = lastName;
 	}
 
-	public List<PersonDateTime> getPersonDateTimes() {
+	public Set<PersonDateTime> getPersonDateTimes() {
 		return personDateTimes;
 	}
 
-	public void setPersonDateTimes(List<PersonDateTime> personDateTimes) {
+	public void setPersonDateTimes(Set<PersonDateTime> personDateTimes) {
 		this.personDateTimes = personDateTimes;
 	}
 

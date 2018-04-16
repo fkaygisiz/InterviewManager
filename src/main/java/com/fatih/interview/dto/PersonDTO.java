@@ -1,4 +1,4 @@
-package com.fatih.interview.common;
+package com.fatih.interview.dto;
 
 import java.util.List;
 
@@ -43,6 +43,5 @@ public class PersonDTO {
 	public void setPersonDateTimes(List<DateTimeForPerson> personDateTimes) {
 		this.personDateTimes = personDateTimes;
 	}
-
 
 }

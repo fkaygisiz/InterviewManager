@@ -1,9 +1,9 @@
-package com.fatih.interview.common;
+package com.fatih.interview.dto;
 
 public class PersonForDateTime {
 
 	private Long personDateTimePersonId;
-	
+
 	private String personDateTimePersonName;
 
 	private String personDateTimePersonLastName;

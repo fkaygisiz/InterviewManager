@@ -1,9 +1,7 @@
-package com.fatih.interview.candidate;
+package com.fatih.interview.dao.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-
-import com.fatih.interview.common.Person;
 
 @Entity
 @DiscriminatorValue("Candidate")

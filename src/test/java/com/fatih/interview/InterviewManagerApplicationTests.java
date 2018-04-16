@@ -1,7 +1,7 @@
 package com.fatih.interview;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,12 +9,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.fatih.interview.candidate.Candidate;
-import com.fatih.interview.common.DateTimeDTO;
-import com.fatih.interview.common.PersonDTO;
-import com.fatih.interview.common.PersonDateTime;
-import com.fatih.interview.time.DateTime;
-import com.fatih.interview.time.DateTimeId;
+import com.fatih.interview.dao.entity.Candidate;
+import com.fatih.interview.dao.entity.DateTime;
+import com.fatih.interview.dao.entity.DateTimeId;
+import com.fatih.interview.dao.entity.PersonDateTime;
+import com.fatih.interview.dto.DateTimeDTO;
+import com.fatih.interview.dto.PersonDTO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,7 +34,7 @@ public class InterviewManagerApplicationTests {
 		DateTime dateTime = new DateTime();
 		dateTime.setDateTimeId(new DateTimeId("2018-04-12", "11:30"));
 
-		List<PersonDateTime> personDateTime = new ArrayList<>();
+		Set<PersonDateTime> personDateTime = new HashSet<>();
 
 		PersonDateTime e = new PersonDateTime();
 		e.setArranged(true);

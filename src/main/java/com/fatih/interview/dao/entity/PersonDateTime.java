@@ -1,4 +1,4 @@
-package com.fatih.interview.common;
+package com.fatih.interview.dao.entity;
 
 import java.io.Serializable;
 
@@ -7,11 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fatih.interview.time.DateTime;
-
 @Table(name = "PERSON_DATE_TIME")
 @Entity
-public class PersonDateTime implements Serializable{
+public class PersonDateTime implements Serializable {
+
+	private static final long serialVersionUID = -5466159088478962454L;
 
 	@Id
 	@ManyToOne

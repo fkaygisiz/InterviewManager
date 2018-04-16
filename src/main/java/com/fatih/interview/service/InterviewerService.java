@@ -1,4 +1,4 @@
-package com.fatih.interview.candidate;
+package com.fatih.interview.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,25 +8,28 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fatih.interview.dao.entity.Interviewer;
+import com.fatih.interview.dao.repository.InterviewerRepository;
+
 @Service
-public class CandidateService {
+public class InterviewerService {
 
 	@Autowired
-	private CandidateRepository candidateRepository;
+	private InterviewerRepository candidateRepository;
 
-	public Candidate doSth(Candidate candidate) {
+	public Interviewer doSth(Interviewer candidate) {
 		return candidateRepository.save(candidate);
 	}
 
-	public List<Candidate> findAll() {
+	public List<Interviewer> findAll() {
 		return StreamSupport.stream(candidateRepository.findAll().spliterator(), false).collect(Collectors.toList());
 	}
 
-	public Optional<Candidate> findById(Long id) {
+	public Optional<Interviewer> findById(Long id) {
 		return candidateRepository.findById(id);
 	}
 
-	public Candidate save(Candidate candidate) {
+	public Interviewer save(Interviewer candidate) {
 		return candidateRepository.save(candidate);
 	}
 

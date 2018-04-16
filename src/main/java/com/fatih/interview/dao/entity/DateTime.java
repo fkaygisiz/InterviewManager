@@ -1,14 +1,12 @@
-package com.fatih.interview.time;
+package com.fatih.interview.dao.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fatih.interview.common.PersonDateTime;
 
 @Entity
 @Table(name = "date_intervals")
@@ -20,9 +18,8 @@ public class DateTime implements Serializable {
 	private DateTimeId dateTimeId;
 
 	@OneToMany(mappedBy = "dateTime")
-	private List<PersonDateTime> personDateTimes;
-	
-	
+	private Set<PersonDateTime> personDateTimes;
+
 	public DateTimeId getDateTimeId() {
 		return dateTimeId;
 	}
@@ -31,11 +28,11 @@ public class DateTime implements Serializable {
 		this.dateTimeId = dateTimeId;
 	}
 
-	public List<PersonDateTime> getPersonDateTimes() {
+	public Set<PersonDateTime> getPersonDateTimes() {
 		return personDateTimes;
 	}
 
-	public void setPersonDateTime(List<PersonDateTime> personDateTimes) {
+	public void setPersonDateTime(Set<PersonDateTime> personDateTimes) {
 		this.personDateTimes = personDateTimes;
 	}
 
