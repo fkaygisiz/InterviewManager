@@ -17,5 +17,10 @@ public class PersonService {
 	public Optional<Person> findById(Long personId) {
 		return personRepository.findById(personId);
 	}
+
+	public Person save(Person person) {
+		return personRepository.save(person);
+		
+	}
 	
 }

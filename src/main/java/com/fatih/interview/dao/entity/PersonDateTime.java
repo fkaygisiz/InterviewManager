@@ -21,6 +21,14 @@ public class PersonDateTime implements Serializable {
 	@ManyToOne
 	private Person person;
 	private Boolean arranged;
+	
+	public PersonDateTime() {}
+	
+	public PersonDateTime(DateTime dateTime, Person person, Boolean arranged) {
+		this.dateTime = dateTime;
+		this.person = person;
+		this.arranged = arranged;
+	}
 
 	public DateTime getDateTime() {
 		return dateTime;
