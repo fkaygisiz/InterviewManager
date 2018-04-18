@@ -2,6 +2,8 @@ package com.fatih.interview.dao.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -13,38 +15,19 @@ public class PersonDateTime implements Serializable {
 
 	private static final long serialVersionUID = -5466159088478962454L;
 
-	@Id
-	@ManyToOne
-	private DateTime dateTime;
-
-	@Id
-	@ManyToOne
-	private Person person;
+	@EmbeddedId
+	private PersonDateTimeId personDateTimeId;
+	
 	private Boolean arranged;
 	
 	public PersonDateTime() {}
 	
-	public PersonDateTime(DateTime dateTime, Person person, Boolean arranged) {
-		this.dateTime = dateTime;
-		this.person = person;
+	public PersonDateTime(PersonDateTimeId personDateTimeId, Boolean arranged) {
+		this.personDateTimeId = personDateTimeId;
 		this.arranged = arranged;
 	}
 
-	public DateTime getDateTime() {
-		return dateTime;
-	}
 
-	public void setDateTime(DateTime dateTime) {
-		this.dateTime = dateTime;
-	}
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
 
 	public Boolean getArranged() {
 		return arranged;
@@ -52,6 +35,14 @@ public class PersonDateTime implements Serializable {
 
 	public void setArranged(Boolean arranged) {
 		this.arranged = arranged;
+	}
+
+	public PersonDateTimeId getPersonDateTimeId() {
+		return personDateTimeId;
+	}
+
+	public void setPersonDateTimeId(PersonDateTimeId personDateTimeId) {
+		this.personDateTimeId = personDateTimeId;
 	}
 
 }

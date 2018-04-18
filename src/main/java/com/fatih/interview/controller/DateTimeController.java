@@ -1,6 +1,8 @@
 package com.fatih.interview.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fatih.interview.dao.entity.DateTime;
 import com.fatih.interview.dao.entity.Person;
 import com.fatih.interview.dao.entity.PersonDateTime;
+import com.fatih.interview.dao.entity.PersonDateTimeId;
 import com.fatih.interview.dto.DateTimeInputDTO;
 import com.fatih.interview.service.DateTimeService;
 import com.fatih.interview.service.PersonService;
@@ -55,11 +58,20 @@ public class DateTimeController {
 		}
 		Person person = personFromDb.get();
 		List<String> timeSlots = getTimeSlotIntervals(dateTimeInputDTO.getStartTime(), dateTimeInputDTO.getEndTime());
-		Set<PersonDateTime> personDateTimes = timeSlots.stream()
-				.map(e -> new PersonDateTime(new DateTime(dateTimeInputDTO.getDate(), e), person, false))
+		Set<DateTime> dateTimes = timeSlots.stream()
+				.map(e -> new DateTime(dateTimeInputDTO.getDate(), e))
+				.collect(Collectors.toSet());
+		Iterable<DateTime> savedDateTimes = dateTimeService.saveAll(dateTimes);
+		
+		Set<PersonDateTime> personDateTimes = new HashSet<>();
+		savedDateTimes.forEach(e -> personDateTimes.add(new PersonDateTime(new PersonDateTimeId(e, person), false)));
+//		dateTimes.forEach(e -> personDateTimes.add(new PersonDateTime(new PersonDateTimeId(e, person), false)));
+		
+		timeSlots.stream()
+				.map(e -> new PersonDateTime(new PersonDateTimeId(new DateTime(dateTimeInputDTO.getDate(), e), person), false))
 				.collect(Collectors.toSet());
 
-		person.setPersonDateTimes(personDateTimes);
+		personDateTimes.forEach(e-> person.getPersonDateTimes().add(e));
 		personService.save(person);
 		System.out.println(dateTimeInputDTO);
 		return ResponseEntity.ok().build();

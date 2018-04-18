@@ -3,6 +3,7 @@ package com.fatih.interview.dao.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -36,7 +37,7 @@ public abstract class Person implements Serializable {
 	@Column(name = "last_name")
 	private String lastName;
 
-	@OneToMany(mappedBy = "person")
+	@OneToMany(mappedBy = "personDateTimeId.person", cascade= {CascadeType.MERGE, CascadeType.PERSIST })
 	private Set<PersonDateTime> personDateTimes;
 
 	public Long getId() {

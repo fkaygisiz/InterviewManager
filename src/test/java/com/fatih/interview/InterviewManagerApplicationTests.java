@@ -38,8 +38,8 @@ public class InterviewManagerApplicationTests {
 
 		PersonDateTime e = new PersonDateTime();
 		e.setArranged(true);
-		e.setPerson(c);
-		e.setDateTime(dateTime);
+	//	e.setPerson(c);
+		//e.setDateTime(dateTime);
 		personDateTime.add(e);
 
 		c.setPersonDateTimes(personDateTime);   

@@ -17,7 +17,7 @@ public class DateTime implements Serializable {
 	@EmbeddedId
 	private DateTimeId dateTimeId;
 
-	@OneToMany(mappedBy = "dateTime")
+	@OneToMany(mappedBy = "personDateTimeId.dateTime")
 	private Set<PersonDateTime> personDateTimes;
 
 	public DateTime() {
