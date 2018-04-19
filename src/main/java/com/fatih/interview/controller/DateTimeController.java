@@ -67,7 +67,12 @@ public class DateTimeController {
 				dateTimeInputDTO.getInterviewIds(),
 				savedDateTimes.stream().map(e -> e.getDateTimeId()).collect(Collectors.toList()));
 		findArrangedPersonByDateAndTime.forEach(System.out::println);
-
+		
+		if(findArrangedPersonByDateAndTime.size() > 0) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Some users have conflicting meetings. " + findArrangedPersonByDateAndTime.stream().map(e->String.valueOf(e.getId())).collect(Collectors.joining(",")));
+		}
+		
+		
 		return null;
 
 	}
