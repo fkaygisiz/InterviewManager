@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fatih.interview.dao.entity.DateTime;
+import com.fatih.interview.dao.entity.DateTimeId;
 import com.fatih.interview.dao.repository.DateTimeRepository;
 
 @Service
@@ -22,13 +23,15 @@ public class DateTimeService {
 	}
 
 	public List<DateTime> findByDateAndTimeSlot(String date, String time) {
-		// return dateTimeRepository.findByDateAndTimeSlot(date, time);
+		//dateTimeRepository.findAllById()
 		return null;
 	}
 
-	public Iterable<DateTime> saveAll(Set<DateTime> dateTimes) {
+	public List<DateTime> saveAll(Set<DateTime> dateTimes) {
 		return dateTimeRepository.saveAll(dateTimes);
-		
 	}
 
+	public List<DateTime> findAll(Set<DateTimeId> dateTimeIds){
+		return dateTimeRepository.findAllById(dateTimeIds);
+	}
 }

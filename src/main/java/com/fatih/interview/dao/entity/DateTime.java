@@ -3,6 +3,7 @@ package com.fatih.interview.dao.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -17,7 +18,7 @@ public class DateTime implements Serializable {
 	@EmbeddedId
 	private DateTimeId dateTimeId;
 
-	@OneToMany(mappedBy = "personDateTimeId.dateTime")
+	@OneToMany(mappedBy = "personDateTimeId.dateTime", cascade= CascadeType.DETACH)
 	private Set<PersonDateTime> personDateTimes;
 
 	public DateTime() {
@@ -45,6 +46,31 @@ public class DateTime implements Serializable {
 
 	public void setPersonDateTime(Set<PersonDateTime> personDateTimes) {
 		this.personDateTimes = personDateTimes;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dateTimeId == null) ? 0 : dateTimeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DateTime other = (DateTime) obj;
+		if (dateTimeId == null) {
+			if (other.dateTimeId != null)
+				return false;
+		} else if (!dateTimeId.equals(other.dateTimeId))
+			return false;
+		return true;
 	}
 
 }
