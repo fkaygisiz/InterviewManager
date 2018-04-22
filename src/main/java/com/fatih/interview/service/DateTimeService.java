@@ -1,6 +1,7 @@
 package com.fatih.interview.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -22,11 +23,10 @@ public class DateTimeService {
 		return StreamSupport.stream(dateTimeRepository.findAll().spliterator(), false).collect(Collectors.toList());
 	}
 
-	public List<DateTime> findByDateAndTimeSlot(String date, String time) {
-		//dateTimeRepository.findAllById()
-		return null;
+	public Optional<DateTime> findByDateAndTimeSlot(String date, String time) {
+		return dateTimeRepository.findById(new DateTimeId(date, time));
 	}
-
+	
 	public List<DateTime> saveAll(Set<DateTime> dateTimes) {
 		return dateTimeRepository.saveAll(dateTimes);
 	}

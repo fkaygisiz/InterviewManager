@@ -17,13 +17,20 @@ public class PersonDateTime implements Serializable {
 	
 	private Boolean arranged;
 	
+	private String meetingName;
+	
 	public PersonDateTime() {}
 	
+	public PersonDateTime(PersonDateTimeId personDateTimeId, Boolean arranged, String meetingName) {
+		this.personDateTimeId = personDateTimeId;
+		this.arranged = arranged;
+		this.meetingName = meetingName;
+	}
+
 	public PersonDateTime(PersonDateTimeId personDateTimeId, Boolean arranged) {
 		this.personDateTimeId = personDateTimeId;
 		this.arranged = arranged;
 	}
-
 
 
 	public Boolean getArranged() {
@@ -65,6 +72,14 @@ public class PersonDateTime implements Serializable {
 		} else if (!personDateTimeId.equals(other.personDateTimeId))
 			return false;
 		return true;
+	}
+
+	public String getMeetingName() {
+		return meetingName;
+	}
+
+	public void setMeetingName(String meetingName) {
+		this.meetingName = meetingName;
 	}
 
 }

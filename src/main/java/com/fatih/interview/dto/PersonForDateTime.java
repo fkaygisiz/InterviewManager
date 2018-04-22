@@ -9,6 +9,8 @@ public class PersonForDateTime {
 	private String personDateTimePersonLastName;
 
 	private Boolean arranged;
+	
+	private String meetingName;
 
 	public Long getPersonDateTimePersonId() {
 		return personDateTimePersonId;
@@ -40,5 +42,13 @@ public class PersonForDateTime {
 
 	public void setArranged(Boolean arranged) {
 		this.arranged = arranged;
+	}
+
+	public String getMeetingName() {
+		return meetingName;
+	}
+
+	public void setMeetingName(String meetingName) {
+		this.meetingName = meetingName;
 	}
 }

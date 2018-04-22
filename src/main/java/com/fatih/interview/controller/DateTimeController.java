@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +25,10 @@ import com.fatih.interview.dao.entity.DateTime;
 import com.fatih.interview.dao.entity.Person;
 import com.fatih.interview.dao.entity.PersonDateTime;
 import com.fatih.interview.dao.entity.PersonDateTimeId;
+import com.fatih.interview.dto.DateTimeDTO;
 import com.fatih.interview.dto.DateTimeInputDTO;
 import com.fatih.interview.dto.DateTimeInputWithInterviewersDTO;
+import com.fatih.interview.dto.DateTimeInputWithPersonDTO;
 import com.fatih.interview.service.DateTimeService;
 import com.fatih.interview.service.PersonService;
 
@@ -39,6 +41,8 @@ public class DateTimeController {
 
 	@Autowired
 	private PersonService personService;
+	
+	private ModelMapper modelMapper = new ModelMapper();
 
 	@GetMapping("")
 	public ResponseEntity<List<DateTime>> getAvailableDateTime() {
@@ -46,31 +50,39 @@ public class DateTimeController {
 	}
 
 	@GetMapping("/{date}/{time}")
-	public ResponseEntity<List<DateTime>> getDateTime(@PathVariable String date, @PathVariable String time) {
-		return ResponseEntity.ok(dateTimeService.findByDateAndTimeSlot(date, time));
+	public ResponseEntity<DateTimeDTO> getDateTime(@PathVariable String date, @PathVariable String time) {
+		Optional<DateTime> dateTimeFromDB = dateTimeService.findByDateAndTimeSlot(date, time);
+		if(dateTimeFromDB.isPresent()) {
+			return ResponseEntity.ok(modelMapper.map(dateTimeFromDB.get(), DateTimeDTO.class));
+		}
+		return ResponseEntity.noContent().build();
 	}
-
+	
 	@PostMapping("/save-meeting")
 	public ResponseEntity<String> setMeeting(@Valid @RequestBody DateTimeInputWithInterviewersDTO dateTimeInputDTO) {
-		dateTimeInputDTO.getInterviewIds().add(dateTimeInputDTO.getPersonId());
 		List<Person> persons = personService.findAllById(dateTimeInputDTO.getInterviewIds());
 		if (persons.size() != dateTimeInputDTO.getInterviewIds().size()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Some users dont exist.");
 		}
-		List<String> timeSlots = extractTimeSlotIntervals(dateTimeInputDTO.getStartTime(),
-				dateTimeInputDTO.getEndTime());
-		Set<DateTime> dateTimes = timeSlots.stream().map(e -> new DateTime(dateTimeInputDTO.getDate(), e))
-				.collect(Collectors.toSet());
-		List<DateTime> savedDateTimes = dateTimeService.saveAll(dateTimes);
+		List<DateTime> savedDateTimes = extractAndSaveDateTimes(dateTimeInputDTO);
 
 		List<Person> findArrangedPersonByDateAndTime = personService.findArrangedPersonByDateAndTime(
 				dateTimeInputDTO.getInterviewIds(),
-				savedDateTimes.stream().map(e -> e.getDateTimeId()).collect(Collectors.toList()));
+				savedDateTimes.stream().map(DateTime::getDateTimeId).collect(Collectors.toList()));
 		findArrangedPersonByDateAndTime.forEach(System.out::println);
-		
-		if(findArrangedPersonByDateAndTime.size() > 0) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("Some users have conflicting meetings. " + findArrangedPersonByDateAndTime.stream().map(e->String.valueOf(e.getId())).collect(Collectors.joining(",")));
+
+		if (!findArrangedPersonByDateAndTime.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body("Some users have conflicting meetings. " + findArrangedPersonByDateAndTime.stream()
+							.map(e -> String.valueOf(e.getId())).collect(Collectors.joining(",")));
 		}
+		persons.forEach(p->{
+			savedDateTimes.forEach(d->p.getPersonDateTimes().remove(new PersonDateTime(new PersonDateTimeId(d, p), false)));
+			personService.save(p);
+			
+			savedDateTimes.forEach(d->p.getPersonDateTimes().add(new PersonDateTime(new PersonDateTimeId(d, p), true, dateTimeInputDTO.getMeetingName())));
+			personService.save(p);
+		});
 		
 		
 		return null;
@@ -78,31 +90,17 @@ public class DateTimeController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<String> setAvailableDateTimeForPerson(@Valid @RequestBody DateTimeInputDTO dateTimeInputDTO) {
+	public ResponseEntity<String> setAvailableDateTimeForPerson(@Valid @RequestBody DateTimeInputWithPersonDTO dateTimeInputDTO) {
 
 		Optional<Person> personFromDb = personService.findById(dateTimeInputDTO.getPersonId());
 		if (!personFromDb.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Person id is not found.");
 		}
 		Person person = personFromDb.get();
-		List<String> timeSlots = extractTimeSlotIntervals(dateTimeInputDTO.getStartTime(),
-				dateTimeInputDTO.getEndTime());
-		Set<DateTime> dateTimes = timeSlots.stream().map(e -> new DateTime(dateTimeInputDTO.getDate(), e))
-				.collect(Collectors.toSet());
-		// dateTimeService.findAll(dateTimes)
-
-		Iterable<DateTime> savedDateTimes = dateTimeService.saveAll(dateTimes);
+		List<DateTime> savedDateTimes = extractAndSaveDateTimes(dateTimeInputDTO);
 
 		Set<PersonDateTime> personDateTimes = new HashSet<>();
 		savedDateTimes.forEach(e -> personDateTimes.add(new PersonDateTime(new PersonDateTimeId(e, person), false)));
-		// dateTimes.forEach(e -> personDateTimes.add(new PersonDateTime(new
-		// PersonDateTimeId(e, person), false)));
-
-		/*
-		 * timeSlots.stream() .map(e -> new PersonDateTime(new PersonDateTimeId(new
-		 * DateTime(dateTimeInputDTO.getDate(), e), person), false))
-		 * .collect(Collectors.toSet());
-		 */
 
 		personDateTimes.stream().forEach(e -> {
 			System.out.println(e.getPersonDateTimeId().getDateTime().getDateTimeId().getTimeSlot());
@@ -117,6 +115,15 @@ public class DateTimeController {
 		personService.save(person);
 		System.out.println(dateTimeInputDTO);
 		return ResponseEntity.ok().build();
+	}
+
+	private List<DateTime> extractAndSaveDateTimes(DateTimeInputDTO dateTimeInputDTO) {
+		List<String> timeSlots = extractTimeSlotIntervals(dateTimeInputDTO.getStartTime(),
+				dateTimeInputDTO.getEndTime());
+		Set<DateTime> dateTimes = timeSlots.stream().map(e -> new DateTime(dateTimeInputDTO.getDate(), e))
+				.collect(Collectors.toSet());
+
+		return dateTimeService.saveAll(dateTimes);
 	}
 
 	private List<String> extractTimeSlotIntervals(String startTime, String endTime) {

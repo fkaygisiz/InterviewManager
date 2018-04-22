@@ -7,6 +7,8 @@ public class DateTimeForPerson {
 	private String personDateTimeDateTimeIdTimeSlot;
 
 	private Boolean arranged;
+	
+	private String meetingName;
 
 	public Boolean getArranged() {
 		return arranged;
@@ -30,5 +32,13 @@ public class DateTimeForPerson {
 
 	public void setPersonDateTimeDateTimeIdTimeSlot(String personDateTimeDateTimeIdTimeSlot) {
 		this.personDateTimeDateTimeIdTimeSlot = personDateTimeDateTimeIdTimeSlot;
+	}
+
+	public String getMeetingName() {
+		return meetingName;
+	}
+
+	public void setMeetingName(String meetingName) {
+		this.meetingName = meetingName;
 	}
 }

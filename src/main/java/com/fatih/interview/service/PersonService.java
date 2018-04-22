@@ -2,7 +2,6 @@ package com.fatih.interview.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.fatih.interview.dao.entity.DateTimeId;
 import com.fatih.interview.dao.entity.Person;
-import com.fatih.interview.dao.entity.PersonDateTimeId;
 import com.fatih.interview.dao.repository.PersonRepository;
 
 @Service
