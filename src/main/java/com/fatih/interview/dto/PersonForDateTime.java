@@ -9,7 +9,7 @@ public class PersonForDateTime {
 	private String personDateTimePersonLastName;
 
 	private Boolean arranged;
-	
+
 	private String meetingName;
 
 	public Long getPersonDateTimePersonId() {

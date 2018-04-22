@@ -2,6 +2,8 @@ package com.fatih.interview.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.validation.constraints.NotNull;
 
@@ -24,15 +26,24 @@ public class PersonService {
 
 	public Person save(Person person) {
 		return personRepository.save(person);
-		
+
 	}
 
 	public List<Person> findAllById(@NotNull List<Long> interviewIds) {
 		return personRepository.findAllById(interviewIds);
 	}
-	
-	public List<Person> findArrangedPersonByDateAndTime(List<Long> personIds, List<DateTimeId> dateTimeId){
-		return personRepository.findByIdInAndPersonDateTimes_ArrangedAndPersonDateTimes_PersonDateTimeId_DateTime_DateTimeId_In(personIds, true, dateTimeId);
+
+	public List<Person> findArrangedPersonByDateAndTime(List<Long> personIds, List<DateTimeId> dateTimeId) {
+		return personRepository
+				.findByIdInAndPersonDateTimes_ArrangedAndPersonDateTimes_PersonDateTimeId_DateTime_DateTimeId_In(
+						personIds, true, dateTimeId);
 	}
-	
+
+	public List<Person> findAll() {
+		return StreamSupport.stream(personRepository.findAll().spliterator(), false).collect(Collectors.toList());
+	}
+
+	public void delete(Long id) {
+		personRepository.deleteById(id);
+	}
 }

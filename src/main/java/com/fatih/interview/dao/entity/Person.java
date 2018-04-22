@@ -21,7 +21,7 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "person")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "person_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Person implements Serializable {
+public class Person implements Serializable {
 
 	private static final long serialVersionUID = 9037195857651873348L;
 
@@ -37,7 +37,10 @@ public abstract class Person implements Serializable {
 	@Column(name = "last_name")
 	private String lastName;
 
-	@OneToMany(mappedBy = "personDateTimeId.person", cascade=CascadeType.ALL)
+	@Column(name = "person_type", nullable = false, updatable = false, insertable = false)
+	private String personType;
+
+	@OneToMany(mappedBy = "personDateTimeId.person", cascade = CascadeType.ALL)
 	private Set<PersonDateTime> personDateTimes;
 
 	public Long getId() {
@@ -97,5 +100,12 @@ public abstract class Person implements Serializable {
 		return true;
 	}
 
+	public String getPersonType() {
+		return personType;
+	}
+
+	public void setPersonType(String personType) {
+		this.personType = personType;
+	}
 
 }

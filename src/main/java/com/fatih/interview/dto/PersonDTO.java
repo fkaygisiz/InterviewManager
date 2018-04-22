@@ -10,6 +10,8 @@ public class PersonDTO {
 
 	private String lastName;
 
+	private String personType;
+
 	private List<DateTimeForPerson> personDateTimes;
 
 	public Long getId() {
@@ -42,6 +44,14 @@ public class PersonDTO {
 
 	public void setPersonDateTimes(List<DateTimeForPerson> personDateTimes) {
 		this.personDateTimes = personDateTimes;
+	}
+
+	public String getPersonType() {
+		return personType;
+	}
+
+	public void setPersonType(String personType) {
+		this.personType = personType;
 	}
 
 }

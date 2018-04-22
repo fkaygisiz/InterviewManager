@@ -16,7 +16,9 @@ public class PersonDateTimeId implements Serializable {
 	@ManyToOne
 	private Person person;
 
-	public PersonDateTimeId() {}
+	public PersonDateTimeId() {
+	}
+
 	public PersonDateTimeId(DateTime e, Person person2) {
 		this.dateTime = e;
 		this.person = person2;
@@ -37,6 +39,7 @@ public class PersonDateTimeId implements Serializable {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -45,6 +48,7 @@ public class PersonDateTimeId implements Serializable {
 		result = prime * result + ((person == null) ? 0 : person.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

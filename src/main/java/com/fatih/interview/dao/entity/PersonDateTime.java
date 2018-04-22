@@ -14,13 +14,14 @@ public class PersonDateTime implements Serializable {
 
 	@EmbeddedId
 	private PersonDateTimeId personDateTimeId;
-	
+
 	private Boolean arranged;
-	
+
 	private String meetingName;
-	
-	public PersonDateTime() {}
-	
+
+	public PersonDateTime() {
+	}
+
 	public PersonDateTime(PersonDateTimeId personDateTimeId, Boolean arranged, String meetingName) {
 		this.personDateTimeId = personDateTimeId;
 		this.arranged = arranged;
@@ -31,7 +32,6 @@ public class PersonDateTime implements Serializable {
 		this.personDateTimeId = personDateTimeId;
 		this.arranged = arranged;
 	}
-
 
 	public Boolean getArranged() {
 		return arranged;

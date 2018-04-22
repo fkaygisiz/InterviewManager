@@ -18,7 +18,7 @@ public class DateTime implements Serializable {
 	@EmbeddedId
 	private DateTimeId dateTimeId;
 
-	@OneToMany(mappedBy = "personDateTimeId.dateTime", cascade= CascadeType.DETACH)
+	@OneToMany(mappedBy = "personDateTimeId.dateTime", cascade = CascadeType.DETACH)
 	private Set<PersonDateTime> personDateTimes;
 
 	public DateTime() {

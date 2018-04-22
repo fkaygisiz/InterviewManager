@@ -7,7 +7,7 @@ public class DateTimeForPerson {
 	private String personDateTimeDateTimeIdTimeSlot;
 
 	private Boolean arranged;
-	
+
 	private String meetingName;
 
 	public Boolean getArranged() {
