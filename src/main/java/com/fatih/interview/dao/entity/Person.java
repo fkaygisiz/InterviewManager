@@ -36,6 +36,13 @@ public class Person implements Serializable {
 	@NotBlank
 	@Column(name = "last_name")
 	private String lastName;
+	
+	@NotBlank
+	@Column(name = "email")
+	private String email;
+	
+	@Column(name = "phone")
+	private String phone;
 
 	@Column(name = "person_type", nullable = false, updatable = false, insertable = false)
 	private String personType;
@@ -76,12 +83,9 @@ public class Person implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    public int hashCode() {
+        return 31;
+    }
 
 	@Override
 	public boolean equals(Object obj) {
@@ -89,7 +93,7 @@ public class Person implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Person))
 			return false;
 		Person other = (Person) obj;
 		if (id == null) {
@@ -106,6 +110,22 @@ public class Person implements Serializable {
 
 	public void setPersonType(String personType) {
 		this.personType = personType;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

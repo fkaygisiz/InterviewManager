@@ -1,17 +1,25 @@
 package com.fatih.interview.dto;
 
+import static com.fatih.interview.dto.DTOConstants.DATE_FORMAT_REGEXP;
+import static com.fatih.interview.dto.DTOConstants.TIME_SLOT_REGEXP;
+
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonProperty;;
+
 public class DateTimeDTO {
 
 	@NotNull
-	@Pattern(regexp = "^([01]\\d|2[0-3]):([0-5][0-5])$")
+	@Pattern(regexp = DATE_FORMAT_REGEXP)
+	@JsonProperty(value = "date")
 	private String dateTimeIdDate;
 
-	@Pattern(regexp = "^([01]\\d|2[0-3]):([0-5][0-5])$")
+	@NotNull
+	@Pattern(regexp = TIME_SLOT_REGEXP)
+	@JsonProperty(value = "timeSlot")
 	private String dateTimeIdTimeSlot;
 
 	private List<PersonForDateTime> personDateTimes;

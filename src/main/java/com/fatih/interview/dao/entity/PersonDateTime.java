@@ -50,12 +50,9 @@ public class PersonDateTime implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((personDateTimeId == null) ? 0 : personDateTimeId.hashCode());
-		return result;
-	}
+    public int hashCode() {
+        return 31;
+    }
 
 	@Override
 	public boolean equals(Object obj) {
@@ -63,7 +60,7 @@ public class PersonDateTime implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof  PersonDateTime))
 			return false;
 		PersonDateTime other = (PersonDateTime) obj;
 		if (personDateTimeId == null) {

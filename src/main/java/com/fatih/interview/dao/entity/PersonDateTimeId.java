@@ -39,15 +39,11 @@ public class PersonDateTimeId implements Serializable {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-
+	
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
-		result = prime * result + ((person == null) ? 0 : person.hashCode());
-		return result;
-	}
+    public int hashCode() {
+        return 31;
+    }
 
 	@Override
 	public boolean equals(Object obj) {
@@ -55,7 +51,7 @@ public class PersonDateTimeId implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof PersonDateTimeId))
 			return false;
 		PersonDateTimeId other = (PersonDateTimeId) obj;
 		if (dateTime == null) {

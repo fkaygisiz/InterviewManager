@@ -72,12 +72,20 @@ public class DateTimeController extends BaseController {
 		return ResponseEntity.ok().build();
 
 	}
-	
+
 	@GetMapping("/{ids}")
-	public ResponseEntity<List<DateTimeDTO>> getAvailableDateTime(@PathVariable ArrayList<Long> ids){
+	public ResponseEntity<List<DateTimeDTO>> getAvailableDateTime(@PathVariable ArrayList<Long> ids) {
 		;
 		return ResponseEntity.ok(modelMapper.map(dateTimeService.getAvailableDateTime(ids), dateTimeListType));
-		
+
 	}
 
+	public static void main(String[] args) {
+		Long long1 = new Long(10);
+		Long long2 = new Long(10);
+
+		System.out.println(long1.hashCode());
+		System.out.println(long2.hashCode());
+
+	}
 }

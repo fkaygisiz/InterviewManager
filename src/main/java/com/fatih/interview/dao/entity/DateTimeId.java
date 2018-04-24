@@ -37,23 +37,18 @@ public class DateTimeId implements Serializable {
 	public void setTimeSlot(String timeSlot) {
 		this.timeSlot = timeSlot;
 	}
-
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((timeSlot == null) ? 0 : timeSlot.hashCode());
-		return result;
-	}
-
+    public int hashCode() {
+        return 31;
+    }
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof DateTimeId))
 			return false;
 		DateTimeId other = (DateTimeId) obj;
 		if (date == null) {

@@ -1,11 +1,16 @@
 package com.fatih.interview.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PersonForDateTime {
 
+	@JsonProperty(value = "personId")
 	private Long personDateTimePersonId;
 
+	@JsonProperty(value = "personName")
 	private String personDateTimePersonName;
 
+	@JsonProperty(value = "personLastName")
 	private String personDateTimePersonLastName;
 
 	private Boolean arranged;

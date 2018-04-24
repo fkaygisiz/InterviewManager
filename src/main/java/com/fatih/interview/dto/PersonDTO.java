@@ -11,6 +11,10 @@ public class PersonDTO {
 	private String lastName;
 
 	private String personType;
+	
+	private String email;
+
+	private String phone;
 
 	private List<DateTimeForPerson> personDateTimes;
 
@@ -52,6 +56,22 @@ public class PersonDTO {
 
 	public void setPersonType(String personType) {
 		this.personType = personType;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

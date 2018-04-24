@@ -1,9 +1,13 @@
 package com.fatih.interview.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DateTimeForPerson {
 
+	@JsonProperty(value = "date")
 	private String personDateTimeDateTimeIdDate;
 
+	@JsonProperty(value = "timeSlot")
 	private String personDateTimeDateTimeIdTimeSlot;
 
 	private Boolean arranged;

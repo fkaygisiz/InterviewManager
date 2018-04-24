@@ -1,19 +1,30 @@
 package com.fatih.interview.dto;
 
+import static com.fatih.interview.dto.DTOConstants.DATE_FORMAT_REGEXP;
+import static com.fatih.interview.dto.DTOConstants.DATE_FORMAT_REGEXP_MESSAGE;
+import static com.fatih.interview.dto.DTOConstants.TIME_SLOT_REGEXP;
+import static com.fatih.interview.dto.DTOConstants.TIME_SLOT_REGEXP_MESSAGE;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
+import io.swagger.annotations.ApiModelProperty;
 
 public class DateTimeInputDTO {
 
 	@NotNull
-	@Pattern(regexp = "^\\d{4}\\-([0][0-9]|[1][012])\\-([012][0-9]|3[01])$", message = "Date should be in yyyy-MM-dd format")
+	@Pattern(regexp = DATE_FORMAT_REGEXP, message = DATE_FORMAT_REGEXP_MESSAGE)
+	@ApiModelProperty(required = true, value = DATE_FORMAT_REGEXP_MESSAGE)
 	private String date;
 
-	@Pattern(regexp = "^([01]\\d|2[0-3]):([0-5][0-5])$", message = "startTime should be in hh:mm format(eg: 15:30)")
+	@NotNull
+	@Pattern(regexp = TIME_SLOT_REGEXP, message = TIME_SLOT_REGEXP_MESSAGE)
+	@ApiModelProperty(required = true, value = TIME_SLOT_REGEXP_MESSAGE)
 	private String startTime;
 
 	@NotNull
-	@Pattern(regexp = "^([01]\\d|2[0-3]):([0-5][0-5])$", message = "startTime should be in hh:mm format(eg: 15:30)")
+	@Pattern(regexp = TIME_SLOT_REGEXP, message = TIME_SLOT_REGEXP_MESSAGE)
+	@ApiModelProperty(required = true, value = TIME_SLOT_REGEXP_MESSAGE)
 	private String endTime;
 
 	public String getDate() {

@@ -49,20 +49,17 @@ public class DateTime implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dateTimeId == null) ? 0 : dateTimeId.hashCode());
-		return result;
-	}
-
+    public int hashCode() {
+        return 31;
+    }
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof DateTime))
 			return false;
 		DateTime other = (DateTime) obj;
 		if (dateTimeId == null) {
