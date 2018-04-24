@@ -11,7 +11,7 @@ public class PersonDTO {
 	private String lastName;
 
 	private String personType;
-	
+
 	private String email;
 
 	private String phone;

@@ -50,9 +50,9 @@ public class PersonDateTime implements Serializable {
 	}
 
 	@Override
-    public int hashCode() {
-        return 31;
-    }
+	public int hashCode() {
+		return 31;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -60,7 +60,7 @@ public class PersonDateTime implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof  PersonDateTime))
+		if (!(obj instanceof PersonDateTime))
 			return false;
 		PersonDateTime other = (PersonDateTime) obj;
 		if (personDateTimeId == null) {

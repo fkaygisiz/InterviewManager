@@ -72,17 +72,19 @@ public class PersonController extends BaseController {
 
 	@PutMapping(value = "/interviewers/{id}")
 	public ResponseEntity<PersonDTO> updateInterviewers(@PathVariable Long id,
-			@Valid @RequestBody Candidate candidate) {
-		return updatePerson(id, candidate);
+			@Valid @RequestBody Interviewer interviewer) {
+		return updatePerson(id, interviewer);
 	}
 
 	private ResponseEntity<PersonDTO> updatePerson(Long id, Person person) {
 		if (!id.equals(person.getId())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		if (!personService.findById(id).isPresent()) {
+		Optional<Person> personFromDB = personService.findById(id);
+		if (!personFromDB.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
+		personFromDB.get().getPersonDateTimes().forEach(pdt -> person.getPersonDateTimes().add(pdt));
 		return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(personService.save(person), PersonDTO.class));
 	}
 

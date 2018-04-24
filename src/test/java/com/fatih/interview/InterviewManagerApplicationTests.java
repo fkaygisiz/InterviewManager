@@ -23,7 +23,7 @@ public class InterviewManagerApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-	
+
 	@Test
 	public void testMapper() {
 		Candidate c = new Candidate();
@@ -38,17 +38,17 @@ public class InterviewManagerApplicationTests {
 
 		PersonDateTime e = new PersonDateTime();
 		e.setArranged(true);
-	//	e.setPerson(c);
-		//e.setDateTime(dateTime);
+		// e.setPerson(c);
+		// e.setDateTime(dateTime);
 		personDateTime.add(e);
 
-		c.setPersonDateTimes(personDateTime);   
+		c.setPersonDateTimes(personDateTime);
 		dateTime.setPersonDateTime(personDateTime);
 
 		ModelMapper modelMapper = new ModelMapper();
 		PersonDTO cDTO = modelMapper.map(c, PersonDTO.class);
 		System.out.println(cDTO);
-		
+
 		DateTimeDTO map = modelMapper.map(dateTime, DateTimeDTO.class);
 		System.out.println(map);
 	}

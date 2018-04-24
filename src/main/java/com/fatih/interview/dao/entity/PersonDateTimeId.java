@@ -39,11 +39,11 @@ public class PersonDateTimeId implements Serializable {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-	
+
 	@Override
-    public int hashCode() {
-        return 31;
-    }
+	public int hashCode() {
+		return 31;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

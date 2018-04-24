@@ -29,7 +29,7 @@ public class DateTimeController extends BaseController {
 
 	@GetMapping("")
 	public ResponseEntity<List<DateTime>> getAvailableDateTime() {
-		return ResponseEntity.ok(dateTimeService.findAll());
+		return ResponseEntity.ok(modelMapper.map(dateTimeService.findAll(), dateTimeListType));
 	}
 
 	@GetMapping("/{date}/{time}")
@@ -74,18 +74,13 @@ public class DateTimeController extends BaseController {
 	}
 
 	@GetMapping("/{ids}")
-	public ResponseEntity<List<DateTimeDTO>> getAvailableDateTime(@PathVariable ArrayList<Long> ids) {
-		;
-		return ResponseEntity.ok(modelMapper.map(dateTimeService.getAvailableDateTime(ids), dateTimeListType));
+	public ResponseEntity<Object> getAvailableDateTime(@PathVariable ArrayList<Long> ids) {
+		List<DateTime> availableDateTimes = dateTimeService.getAvailableDateTime(ids);
+		if (availableDateTimes.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No suitable time slot found!");
+		}
+		return ResponseEntity.ok(modelMapper.map(availableDateTimes, dateTimeListType));
 
 	}
 
-	public static void main(String[] args) {
-		Long long1 = new Long(10);
-		Long long2 = new Long(10);
-
-		System.out.println(long1.hashCode());
-		System.out.println(long2.hashCode());
-
-	}
 }

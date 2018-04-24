@@ -37,11 +37,12 @@ public class DateTimeId implements Serializable {
 	public void setTimeSlot(String timeSlot) {
 		this.timeSlot = timeSlot;
 	}
+
 	@Override
-    public int hashCode() {
-        return 31;
-    }
-	
+	public int hashCode() {
+		return 31;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -1,6 +1,7 @@
 package com.fatih.interview.dao.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -36,11 +37,11 @@ public class Person implements Serializable {
 	@NotBlank
 	@Column(name = "last_name")
 	private String lastName;
-	
+
 	@NotBlank
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "phone")
 	private String phone;
 
@@ -48,7 +49,7 @@ public class Person implements Serializable {
 	private String personType;
 
 	@OneToMany(mappedBy = "personDateTimeId.person", cascade = CascadeType.ALL)
-	private Set<PersonDateTime> personDateTimes;
+	private Set<PersonDateTime> personDateTimes = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -83,9 +84,9 @@ public class Person implements Serializable {
 	}
 
 	@Override
-    public int hashCode() {
-        return 31;
-    }
+	public int hashCode() {
+		return 31;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
