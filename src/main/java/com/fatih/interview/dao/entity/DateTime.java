@@ -20,7 +20,7 @@ public class DateTime implements Serializable {
 	private DateTimeId dateTimeId;
 
 	@OneToMany(mappedBy = "personDateTimeId.dateTime", cascade = CascadeType.DETACH)
-	private Set<PersonDateTime> personDateTimes = new HashSet<>();;
+	private Set<PersonDateTime> personDateTimes = new HashSet<>();
 
 	public DateTime() {
 	}

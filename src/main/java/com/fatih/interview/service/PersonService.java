@@ -46,4 +46,8 @@ public class PersonService {
 	public void delete(Long id) {
 		personRepository.deleteById(id);
 	}
+
+	public List<Person> findPersonsByMeetingName(String meetingName) {
+		return personRepository.findByPersonDateTimes_MeetingName(meetingName);
+	}
 }

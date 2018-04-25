@@ -70,20 +70,12 @@ public class DateTimeService {
 		return Long.valueOf(startTimeSplitted[0]) * 60 + Long.valueOf(startTimeSplitted[1]);
 	}
 
-	/*
-	 * select i.date, i.time_slot from date_intervals i inner join person_date_time
-	 * t on t.date_time_date = i.date and t.date_time_time_slot=i.time_slot where
-	 * t.arranged='FALSE' group by i.date, i.time_slot having count(t.PERSON_ID) =3
-	 */
-	public List<DateTime> getAvailableDateTime(List<Long> ids) {
-		// List<DateTime>
-		// byPersonDateTimes_ArrangedAndPersonDateTimes_PersonDateTimeId_Person_IdIn =
-		// dateTimeRepository.getByPersonDateTimes_ArrangedAndPersonDateTimes_PersonDateTimeId_Person_IdIn(false,ids);
+	public List<DateTime> getAvailableDateTimeByPersonIdList(List<Long> ids) {
+		return dateTimeRepository.getDateTimeContainsAllPerson(ids, ids.size());
 
-		// List<Person> persons = ids.stream().map(e-> {Person p = new
-		// Person();p.setId(e);return p;}).collect(Collectors.toList());
-		return dateTimeRepository.getDateTimeContainsAll(ids, Long.valueOf(ids.size()));
-		// return
-		// byPersonDateTimes_ArrangedAndPersonDateTimes_PersonDateTimeId_Person_IdIn;
+	}
+
+	public Set<DateTime> findByMeetingName(String meetingName) {
+		return dateTimeRepository.findByPersonDateTimes_MeetingName(meetingName);
 	}
 }

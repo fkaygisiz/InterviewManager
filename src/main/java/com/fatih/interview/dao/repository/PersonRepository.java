@@ -13,4 +13,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
 	List<Person> findByIdInAndPersonDateTimes_ArrangedAndPersonDateTimes_PersonDateTimeId_DateTime_DateTimeId_In(
 			List<Long> personIds, boolean b, List<DateTimeId> personDateTimeId);
+
+	List<Person> findByPersonDateTimes_MeetingName(String meetingName);
 }

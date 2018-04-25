@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -24,13 +25,17 @@ import com.fatih.interview.dao.entity.Interviewer;
 import com.fatih.interview.dao.entity.Person;
 import com.fatih.interview.dao.entity.PersonDateTime;
 import com.fatih.interview.dao.entity.PersonDateTimeId;
+import com.fatih.interview.dto.DateTimeInputWithInterviewersDTO;
 import com.fatih.interview.dto.DateTimeInputWithPersonDTO;
 import com.fatih.interview.dto.PersonDTO;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/persons")
 public class PersonController extends BaseController {
 
+	@ApiOperation(value = "To find all people")
 	@GetMapping("")
 	public ResponseEntity<List<PersonDTO>> findAll() {
 		List<Person> allCandidates = personService.findAll();
@@ -38,6 +43,7 @@ public class PersonController extends BaseController {
 		return ResponseEntity.ok(modelMapper.map(allCandidates, personListType));
 	}
 
+	@ApiOperation(value = "To find specific person. eg: .../1")
 	@GetMapping("/{id}")
 	public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
 		Optional<Person> person = personService.findById(id);
@@ -47,11 +53,13 @@ public class PersonController extends BaseController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@ApiOperation(value = "To save a candidate")
 	@PostMapping(value = "/canditates")
 	public ResponseEntity<PersonDTO> saveCandidate(@Valid @RequestBody Candidate candidate) {
 		return savePerson(candidate);
 	}
 
+	@ApiOperation(value = "To save an interviewer")
 	@PostMapping(value = "/interviewers")
 	public ResponseEntity<PersonDTO> saveInterviewer(@Valid @RequestBody Interviewer interviewer) {
 		return savePerson(interviewer);
@@ -61,15 +69,17 @@ public class PersonController extends BaseController {
 		if (person.getId() != null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(modelMapper.map(personService.save(person), PersonDTO.class));
+		Person savedPerson = personService.save(person);
+		return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(savedPerson, PersonDTO.class));
 	}
 
+	@ApiOperation(value = "To update a candidate")
 	@PutMapping(value = "/canditates/{id}")
 	public ResponseEntity<PersonDTO> updateCandidate(@PathVariable Long id, @Valid @RequestBody Candidate candidate) {
 		return updatePerson(id, candidate);
 	}
 
+	@ApiOperation(value = "To update an interviewer")
 	@PutMapping(value = "/interviewers/{id}")
 	public ResponseEntity<PersonDTO> updateInterviewers(@PathVariable Long id,
 			@Valid @RequestBody Interviewer interviewer) {
@@ -88,13 +98,15 @@ public class PersonController extends BaseController {
 		return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(personService.save(person), PersonDTO.class));
 	}
 
+	@ApiOperation(value = "To delete an interviewer or a candidate")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		personService.delete(id);
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("")
+	@ApiOperation(value = "To set available time of an interviewer or a candidate")
+	@PostMapping("/set-available-date-time")
 	public ResponseEntity<String> setAvailableDateTimeForPerson(
 			@Valid @RequestBody DateTimeInputWithPersonDTO dateTimeInputDTO) {
 
@@ -108,19 +120,49 @@ public class PersonController extends BaseController {
 		Set<PersonDateTime> personDateTimes = new HashSet<>();
 		savedDateTimes.forEach(e -> personDateTimes.add(new PersonDateTime(new PersonDateTimeId(e, person), false)));
 
-		personDateTimes.stream().forEach(e -> {
-			System.out.println(e.getPersonDateTimeId().getDateTime().getDateTimeId().getTimeSlot());
-			person.getPersonDateTimes().remove(e);
-		});
+		personDateTimes.stream().forEach(e -> person.getPersonDateTimes().remove(e));
 		personService.save(person);
 
-		personDateTimes.stream().forEach(e -> {
-			System.out.println(e.getPersonDateTimeId().getDateTime().getDateTimeId().getTimeSlot());
-			person.getPersonDateTimes().add(e);
-		});
+		personDateTimes.stream().forEach(e -> person.getPersonDateTimes().add(e));
 		personService.save(person);
-		System.out.println(dateTimeInputDTO);
 		return ResponseEntity.ok().build();
 	}
 
+	@ApiOperation(value = "To save a meeting with interviewers and candidate")
+	@PostMapping("/save-meeting")
+	public ResponseEntity<String> setMeeting(@Valid @RequestBody DateTimeInputWithInterviewersDTO dateTimeInputDTO) {
+		List<Person> persons = personService.findAllById(dateTimeInputDTO.getInterviewIds());
+		if (persons.size() != dateTimeInputDTO.getInterviewIds().size()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Some users dont exist.");
+		}
+
+		List<Person> meetingPersons = personService.findPersonsByMeetingName(dateTimeInputDTO.getMeetingName());
+		if (!meetingPersons.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("There is another meeting with the same name.");
+		}
+
+		List<DateTime> savedDateTimes = dateTimeService.extractAndSaveDateTimes(dateTimeInputDTO);
+
+		List<Person> findArrangedPersonByDateAndTime = personService.findArrangedPersonByDateAndTime(
+				dateTimeInputDTO.getInterviewIds(),
+				savedDateTimes.stream().map(DateTime::getDateTimeId).collect(Collectors.toList()));
+
+		if (!findArrangedPersonByDateAndTime.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body("Some users have conflicting meetings. " + findArrangedPersonByDateAndTime.stream()
+							.map(e -> String.valueOf(e.getId())).collect(Collectors.joining(",")));
+		}
+		persons.forEach(p -> {
+			savedDateTimes
+					.forEach(d -> p.getPersonDateTimes().remove(new PersonDateTime(new PersonDateTimeId(d, p), false)));
+			personService.save(p);
+
+			savedDateTimes.forEach(d -> p.getPersonDateTimes()
+					.add(new PersonDateTime(new PersonDateTimeId(d, p), true, dateTimeInputDTO.getMeetingName())));
+			personService.save(p);
+		});
+
+		return ResponseEntity.ok().build();
+
+	}
 }
