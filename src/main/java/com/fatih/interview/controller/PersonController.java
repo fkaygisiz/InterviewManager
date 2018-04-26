@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/persons")
 public class PersonController extends BaseController {
 
-	@ApiOperation(value = "To find all people")
+	@ApiOperation(value = "Gets all people")
 	@GetMapping("")
 	public ResponseEntity<List<PersonDTO>> findAll() {
 		List<Person> allCandidates = personService.findAll();
@@ -43,7 +43,7 @@ public class PersonController extends BaseController {
 		return ResponseEntity.ok(modelMapper.map(allCandidates, personListType));
 	}
 
-	@ApiOperation(value = "To find specific person. eg: .../1")
+	@ApiOperation(value = "Finds specific person. eg: .../1")
 	@GetMapping("/{id}")
 	public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
 		Optional<Person> person = personService.findById(id);
@@ -53,13 +53,13 @@ public class PersonController extends BaseController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@ApiOperation(value = "To save a candidate")
+	@ApiOperation(value = "Saves a candidate")
 	@PostMapping(value = "/canditates")
 	public ResponseEntity<PersonDTO> saveCandidate(@Valid @RequestBody Candidate candidate) {
 		return savePerson(candidate);
 	}
 
-	@ApiOperation(value = "To save an interviewer")
+	@ApiOperation(value = "Saves an interviewer")
 	@PostMapping(value = "/interviewers")
 	public ResponseEntity<PersonDTO> saveInterviewer(@Valid @RequestBody Interviewer interviewer) {
 		return savePerson(interviewer);
@@ -73,13 +73,13 @@ public class PersonController extends BaseController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(savedPerson, PersonDTO.class));
 	}
 
-	@ApiOperation(value = "To update a candidate")
+	@ApiOperation(value = "Updates a candidate")
 	@PutMapping(value = "/canditates/{id}")
 	public ResponseEntity<PersonDTO> updateCandidate(@PathVariable Long id, @Valid @RequestBody Candidate candidate) {
 		return updatePerson(id, candidate);
 	}
 
-	@ApiOperation(value = "To update an interviewer")
+	@ApiOperation(value = "Updates an interviewer")
 	@PutMapping(value = "/interviewers/{id}")
 	public ResponseEntity<PersonDTO> updateInterviewers(@PathVariable Long id,
 			@Valid @RequestBody Interviewer interviewer) {
@@ -98,14 +98,14 @@ public class PersonController extends BaseController {
 		return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(personService.save(person), PersonDTO.class));
 	}
 
-	@ApiOperation(value = "To delete an interviewer or a candidate")
+	@ApiOperation(value = "Deletes an interviewer or a candidate")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		personService.delete(id);
 		return ResponseEntity.ok().build();
 	}
 
-	@ApiOperation(value = "To set available time of an interviewer or a candidate")
+	@ApiOperation(value = "Sets available time of an interviewer or a candidate")
 	@PostMapping("/set-available-date-time")
 	public ResponseEntity<String> setAvailableDateTimeForPerson(
 			@Valid @RequestBody DateTimeInputWithPersonDTO dateTimeInputDTO) {
@@ -128,7 +128,7 @@ public class PersonController extends BaseController {
 		return ResponseEntity.ok().build();
 	}
 
-	@ApiOperation(value = "To save a meeting with interviewers and candidate")
+	@ApiOperation(value = "Saves a meeting with interviewers and/or candidates")
 	@PostMapping("/save-meeting")
 	public ResponseEntity<String> setMeeting(@Valid @RequestBody DateTimeInputWithInterviewersDTO dateTimeInputDTO) {
 		List<Person> persons = personService.findAllById(dateTimeInputDTO.getInterviewIds());

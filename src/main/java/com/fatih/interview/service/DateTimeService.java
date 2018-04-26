@@ -78,7 +78,7 @@ public class DateTimeService {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = now.format(dateFormatter);
         
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         String formattedTime = now.format(timeFormatter);
 
 		return dateTimeRepository.getDateTimeContainsAllPerson(ids, Long.valueOf(ids.size()), formattedDate, formattedTime);

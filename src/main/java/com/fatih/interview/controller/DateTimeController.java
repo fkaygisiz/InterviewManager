@@ -21,13 +21,13 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/date-times")
 public class DateTimeController extends BaseController {
 
-	@ApiOperation(value = "To get all date")
+	@ApiOperation(value = "Gets all date")
 	@GetMapping("")
 	public ResponseEntity<List<DateTime>> getAvailableDateTime() {
 		return ResponseEntity.ok(modelMapper.map(dateTimeService.findAll(), dateTimeListType));
 	}
 
-	@ApiOperation(value = "To find all date of a meeting name. eg: .../meetings/by-name/meeting1")
+	@ApiOperation(value = "Finds all date of a meeting name. eg: .../meetings/by-name/meeting1")
 	@GetMapping("/meetings/by-name/{meetingName}")
 	public ResponseEntity<List<DateTimeDTO>> getByMeetingName(@PathVariable String meetingName) {
 		Set<DateTime> availableDateTimes = dateTimeService.findByMeetingName(meetingName);
@@ -37,7 +37,7 @@ public class DateTimeController extends BaseController {
 		return ResponseEntity.ok(modelMapper.map(availableDateTimes, dateTimeListType));
 	}
 
-	@ApiOperation(value = "To find specific date. Sample request: .../2018-04-26./11:30")
+	@ApiOperation(value = "Finds specific date. Sample request: .../2018-04-26./11:30")
 	@GetMapping("/{date}/{time}")
 	public ResponseEntity<DateTimeDTO> getDateTime(@PathVariable String date, @PathVariable String time) {
 		Optional<DateTime> dateTimeFromDB = dateTimeService.findByDateAndTimeSlot(date, time);
@@ -47,7 +47,7 @@ public class DateTimeController extends BaseController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@ApiOperation(value = "To find available time slots for the given person id list. eg: .../1,2,3")
+	@ApiOperation(value = "Finds available time slots for the given person id list. eg: .../1,2,3")
 	@GetMapping("/{ids}")
 	public ResponseEntity<Object> getAvailableDateTime(@PathVariable ArrayList<Long> ids) {
 		List<DateTime> availableDateTimes = dateTimeService.getAvailableDateTimeByPersonIdList(ids);
