@@ -15,10 +15,11 @@ import com.fatih.interview.dao.entity.DateTimeId;
 public interface DateTimeRepository extends JpaRepository<DateTime, DateTimeId> {
 
 	@Query("select i from DateTime i join i.personDateTimes t\r\n"
-			+ "where t.arranged='FALSE' AND t.personDateTimeId.person.id in (:persons) group by i.dateTimeId.date, i.dateTimeId.timeSlot "
+			+ "where t.arranged='FALSE' AND ((i.dateTimeId.date > :formattedDate) OR (i.dateTimeId.date = :formattedDate AND i.dateTimeId.timeSlot > :formattedTime)) AND t.personDateTimeId.person.id in (:persons) group by i.dateTimeId.date, i.dateTimeId.timeSlot "
 			+ "having count(t.personDateTimeId.person.id) = :personCount ")
 	List<DateTime> getDateTimeContainsAllPerson(@Param(value = "persons") List<Long> persons,
-			@Param(value = "personCount") int personCount);
+			@Param(value = "personCount") Long personCount, @Param(value = "formattedDate") String formattedDate,
+			@Param(value = "formattedTime") String formattedTime);
 
 	Set<DateTime> findByPersonDateTimes_MeetingName(String meetingName);
 

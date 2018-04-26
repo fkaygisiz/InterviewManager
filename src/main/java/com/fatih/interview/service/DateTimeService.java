@@ -1,5 +1,7 @@
 package com.fatih.interview.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +73,15 @@ public class DateTimeService {
 	}
 
 	public List<DateTime> getAvailableDateTimeByPersonIdList(List<Long> ids) {
-		return dateTimeRepository.getDateTimeContainsAllPerson(ids, ids.size());
+		LocalDateTime now = LocalDateTime.now();
+        System.out.println("Before : " + now);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = now.format(dateFormatter);
+        
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+        String formattedTime = now.format(timeFormatter);
+
+		return dateTimeRepository.getDateTimeContainsAllPerson(ids, Long.valueOf(ids.size()), formattedDate, formattedTime);
 
 	}
 
