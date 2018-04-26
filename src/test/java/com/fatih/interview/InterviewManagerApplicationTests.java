@@ -21,10 +21,6 @@ import com.fatih.interview.dto.PersonDTO;
 public class InterviewManagerApplicationTests {
 
 	@Test
-	public void contextLoads() {
-	}
-
-	@Test
 	public void testMapper() {
 		Candidate c = new Candidate();
 		c.setId(1L);
